@@ -105,15 +105,15 @@ function Preloader({ onDone }) {
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "32px",
       transition: "opacity 0.7s ease", opacity: hiding ? 0 : 1, pointerEvents: hiding ? "none" : "all",
     }}>
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: 300, color: "#2a1f14", letterSpacing: "0.08em", animation: "preloaderPulse 2s ease-in-out infinite", textAlign: "center", lineHeight: 1.3 }}>
+      {/* <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: 300, color: "#2a1f14", letterSpacing: "0.08em", animation: "preloaderPulse 2s ease-in-out infinite", textAlign: "center", lineHeight: 1.3 }}>
         Deepraj<br />
         <span style={{ fontStyle: "italic", color: "#8a6a40", fontSize: "0.55em", letterSpacing: "0.25em" }}>&amp;</span><br />
         Gouri
-      </div>
+      </div> */}
       <div style={{ width: "180px", height: "1px", background: "#e8d8c0", borderRadius: "2px", overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(to right, #c9a96e, #d4a017)", transition: "width 0.1s ease", borderRadius: "2px" }} />
       </div>
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.4em", color: "#c9a96e", textTransform: "uppercase", fontWeight: 300 }}>April 24 – 26, 2026</div>
+      {/* <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.4em", color: "#c9a96e", textTransform: "uppercase", fontWeight: 300 }}>April 24 – 26, 2026</div> */}
     </div>
   );
 }
@@ -142,7 +142,7 @@ const EVENTS = [
     tagline: "An evening of music & soul",
     desc: "Families come alive — through song, dance, and stories. The night hums with nostalgia, joy, and performances that will be talked about for years.",
     date: "April 25, 2026",
-    time: "7:00 PM — midnight",
+    time: "7:00 PM onwards",
     pastel: "#F0E6FF",
     accent: "#8B5CF6",
     dot: "#9b72ef",
@@ -155,7 +155,7 @@ const EVENTS = [
     tagline: "Seven steps into forever",
     desc: "The sacred walk around the fire — seven vows, seven promises, seven steps that bind two souls across every lifetime that will ever be.",
     date: "April 26, 2026",
-    time: "07:00 AM",
+    time: "07:00 AM onwards",
     pastel: "#FFE8E8",
     accent: "#C0394B",
     dot: "#e05060",
@@ -168,7 +168,7 @@ const EVENTS = [
     tagline: "The auspicious moment",
     desc: "As the stars align and the priest recites ancient mantras, two families become one. The most sacred and still moment of the entire celebration.",
     date: "April 26, 2026",
-    time: "12:37 PM sharp",
+    time: "12:37 PM ",
     pastel: "#E8F5E9",
     accent: "#2E7D52",
     dot: "#3d9e6a",
@@ -577,14 +577,14 @@ function ChapterDivider({ label }) {
 function Hero() {
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 6vw", position: "relative" }}>
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.45em", fontWeight: 700, textTransform: "uppercase", color: "#c9a96e", marginBottom: "22px", animation: "fadeIn 1.5s ease both" }}>With joy & blessings we invite you</div>
+      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.30em", fontWeight: 700, textTransform: "uppercase", color: "#c9a96e", marginBottom: "22px", animation: "fadeIn 1.5s ease both" }}>With joy and blessings we invite you to celebrate the wedding of</div>
       <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.6rem, 10vw, 5.5rem)", fontWeight: 300, lineHeight: 1.1, color: "#2a1f14", letterSpacing: "0.04em", animation: "fadeUp 1.2s ease 0.2s both" }}>
         Deepraj<br />
         <span style={{ fontStyle: "italic", color: "#8a6a40" }}>&amp;</span><br />
         Gouri
       </h1>
       <div style={{ width: "1px", height: "48px", background: "linear-gradient(to bottom, #c9a96e, transparent)", margin: "24px auto", animation: "fadeIn 1.2s ease 0.6s both" }} />
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.35em", color: "#7a6a52", animation: "fadeIn 1.2s ease 0.8s both" }}>April 24 – 26, 2026</div>
+      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.35em", color: "#7a6a52", animation: "fadeIn 1.2s ease 0.8s both" }}>April 25 – 26, 2026</div>
     </div>
   );
 }
