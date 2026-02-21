@@ -213,7 +213,7 @@ function Heart({ position, velocity, scale }) {
 function TunnelScene() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => { setIsMobile(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)); }, []);
-  const COUNT = isMobile ? 20 : 45;
+  const COUNT = 40;
   const hearts = useMemo(() => Array.from({ length: COUNT }).map(() => ({
     position: [(Math.random() - 0.5) * 14, (Math.random() - 0.5) * 14, (Math.random() - 0.5) * 14],
     velocity: [(Math.random() - 0.5) * 0.015, (Math.random() - 0.5) * 0.015, (Math.random() - 0.5) * 0.015],
