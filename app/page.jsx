@@ -78,6 +78,18 @@ const FontLink = () => (
       100% { transform: translateY(-280px) scale(0.3) rotate(180deg); opacity: 0; }
     }
 
+    /* ── RECEPTION: gold bokeh orbs drift & pulse ── */
+    @keyframes reception-orb {
+      0%   { transform: translateY(0px) scale(0.5); opacity: 0; }
+      15%  { opacity: 1; }
+      70%  { opacity: 0.7; }
+      100% { transform: translateY(-300px) scale(1.4); opacity: 0; }
+    }
+    @keyframes reception-twinkle {
+      0%,100% { opacity: 0.15; transform: scale(0.6); }
+      50%     { opacity: 1;    transform: scale(1.4); }
+    }
+
     /* ── VARMALA: petals rain diagonally ── */
     @keyframes varmala-petal {
       0%   { transform: translateY(-10px) translateX(0px) rotate(0deg); opacity: 0; }
@@ -131,7 +143,7 @@ const EVENTS = [
     key: "haldi",
     label: "Haldi",
     hindi: "हल्दी",
-    tagline: "Golden beginnings",
+    tagline: "Golden beginnings ",
     desc: "Where turmeric meets tradition — a morning of laughter, blessings, and the warm glow of marigolds as family gathers to anoint the couple with love.",
     date: "April 25, 2026",
     time: "11:00 AM onwards",
@@ -139,6 +151,7 @@ const EVENTS = [
     accent: "#D4A017",
     dot: "#e6b800",
     icon: "🌼",
+    tagline2:"Dress Code : 'Yellow'"
   },
   {
     key: "sangeet",
@@ -179,6 +192,20 @@ const EVENTS = [
     dot: "#3d9e6a",
     icon: "✨",
   },
+  {
+    key: "reception",
+    label: "Reception",
+    hindi: "स्वागत समारोह",
+    tagline: "A night to remember forever",
+    desc: "The grand finale — an evening of elegance, laughter, and celebration as the newlyweds are welcomed into their shared life. Music fills the air, lights shimmer, and the night belongs entirely to love.",
+    date: "April 28, 2026",
+    time: "7:30 PM onwards",
+    pastel: "#1a1035",
+    accent: "#c9a96e",
+    dot: "#e2c07a",
+    icon: "🥂",
+    dark: true,
+  },
 ];
 
 /* ══════════════════════════════════════════════════════
@@ -211,7 +238,7 @@ function Heart({ position, velocity, scale }) {
   return (
     <mesh ref={ref} position={position} scale={scale}>
       <extrudeGeometry args={[shape, { depth: 0.4, bevelEnabled: true, bevelSize: 0.08, bevelThickness: 0.08 }]} />
-      <meshPhysicalMaterial color="#ff4d4d" roughness={0} transmission={0.8} thickness={0.6} transparent opacity={0.35} metalness={0} reflectivity={0.8} clearcoat={0.6} clearcoatRoughness={0} ior={1.5} />
+      <meshPhysicalMaterial color="#ff4d4d" roughness={0} transmission={0.2} thickness={0.6} transparent opacity={0.7} metalness={0} reflectivity={0.8} clearcoat={0.6} clearcoatRoughness={0} ior={1.5} />
     </mesh>
   );
 }
@@ -395,12 +422,58 @@ function VarmalaParticles() {
     </>
   );
 }
+function ReceptionParticles() {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    const goldPalette = ["#f0d090", "#e8c97e", "#ffd700", "#fffacd", "#f5e6a3", "#ffffff", "#ffe88a"];
+    setItems(Array.from({ length: 28 }).map((_, i) => {
+      const isTwinkle = i < 10;
+      return {
+        id: i, isTwinkle,
+        left: `${5 + Math.random() * 90}%`,
+        top: isTwinkle ? `${5 + Math.random() * 90}%` : `${60 + Math.random() * 35}%`,
+        size: isTwinkle ? 3 + Math.random() * 5 : 6 + Math.random() * 14,
+        delay: `${(Math.random() * 4).toFixed(2)}s`,
+        duration: `${(isTwinkle ? 1.5 + Math.random() * 2 : 3 + Math.random() * 3).toFixed(2)}s`,
+        color: goldPalette[Math.floor(Math.random() * goldPalette.length)],
+        blur: isTwinkle ? 0 : 2 + Math.random() * 4,
+      };
+    }));
+  }, []);
+  return (
+    <>
+      {items.map(d => (
+        <div key={d.id} style={{
+          position: "absolute",
+          left: d.left,
+          top: d.top,
+          width: `${d.size}px`,
+          height: `${d.size}px`,
+          background: d.isTwinkle
+            ? d.color
+            : `radial-gradient(circle, ${d.color}ff 0%, ${d.color}99 40%, transparent 80%)`,
+          borderRadius: "50%",
+          boxShadow: d.isTwinkle
+            ? `0 0 ${d.size * 2}px ${d.color}, 0 0 ${d.size * 4}px ${d.color}80`
+            : `0 0 ${d.size * 3}px ${d.color}99`,
+          filter: d.blur ? `blur(${d.blur}px)` : undefined,
+          pointerEvents: "none",
+          zIndex: 5,
+          animation: d.isTwinkle
+            ? `reception-twinkle ${d.duration} ${d.delay} ease-in-out infinite`
+            : `reception-orb ${d.duration} ${d.delay} ease-out infinite`,
+        }} />
+      ))}
+    </>
+  );
+}
 function CardParticles({ eventKey }) {
   switch (eventKey) {
     case "haldi": return <HaldiParticles />;
     case "sangeet": return <SangeetParticles />;
     case "saptapadi": return <SaptapadiParticles />;
     case "varmala": return <VarmalaParticles />;
+    case "reception": return <ReceptionParticles />;
     default: return null;
   }
 }
@@ -410,6 +483,9 @@ function CardParticles({ eventKey }) {
 ══════════════════════════════════════════════════════ */
 function EventCard({ ev, index }) {
   const isEven = index % 2 === 0;
+  const textPrimary = ev.dark ? "#f5e6c8" : "#2a1f14";
+  const textBody = ev.dark ? "#c8b89a" : "#4a3728";
+  const textMeta = ev.dark ? "#a89070" : "#5a4535";
 
   return (
     <div
@@ -417,7 +493,6 @@ function EventCard({ ev, index }) {
       style={{
         transitionDelay: `${index * 0.08}s`,
         display: "flex",
-        // On desktop: alternate left/right. The CSS media query overrides to center on mobile.
         justifyContent: isEven ? "flex-start" : "flex-end",
         padding: "0 5vw",
         marginBottom: "clamp(60px, 10vh, 120px)",
@@ -428,36 +503,44 @@ function EventCard({ ev, index }) {
         className="card-inner"
         style={{
           width: "min(420px, 88vw)",
-          background: ev.pastel,
+          background: ev.dark
+            ? "linear-gradient(145deg, #12092a 0%, #1e1040 50%, #0e1628 100%)"
+            : ev.pastel,
           borderRadius: "24px",
           padding: "clamp(28px, 5vw, 44px)",
-          boxShadow: `0 8px 36px ${ev.dot}44, 0 2px 12px rgba(0,0,0,0.06)`,
+          boxShadow: ev.dark
+            ? `0 8px 48px ${ev.dot}55, 0 2px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)`
+            : `0 8px 36px ${ev.dot}44, 0 2px 12px rgba(0,0,0,0.06)`,
           position: "relative",
           overflow: "visible",
+          border: ev.dark ? "1px solid rgba(200,160,80,0.15)" : "none",
         }}
       >
         {/* Decorative rings */}
         <div style={{ position: "absolute", top: "-30px", right: "-30px", width: "160px", height: "160px", borderRadius: "50%", border: `2px solid ${ev.accent}22`, pointerEvents: "none", zIndex: 0 }} />
         <div style={{ position: "absolute", top: "-10px", right: "-10px", width: "100px", height: "100px", borderRadius: "50%", border: `1.5px solid ${ev.accent}30`, pointerEvents: "none", zIndex: 0 }} />
+        {ev.dark && (
+          <div style={{ position: "absolute", inset: 0, borderRadius: "24px", background: "radial-gradient(ellipse at 70% 20%, rgba(200,160,60,0.08) 0%, transparent 65%)", pointerEvents: "none", zIndex: 0 }} />
+        )}
 
         <CardParticles eventKey={ev.key} />
 
         <div style={{ position: "relative", zIndex: 2 }}>
           <div style={{ fontSize: "2rem", marginBottom: "18px", display: "inline-block", animation: "floatY 4s ease-in-out infinite" }}>{ev.icon}</div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: ev.accent, letterSpacing: "0.15em", marginBottom: "4px", opacity: 0.75 }}>{ev.hindi}</div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 6vw, 2.8rem)", fontWeight: 300, color: "#2a1f14", letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "6px" }}>{ev.label}</h2>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: ev.accent, letterSpacing: "0.15em", marginBottom: "4px", opacity: 0.85 }}>{ev.hindi}</div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 6vw, 2.8rem)", fontWeight: 300, color: textPrimary, letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "6px" }}>{ev.label}</h2>
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.25em", color: ev.accent, textTransform: "uppercase", marginBottom: "20px" }}>{ev.tagline}</p>
           <div style={{ width: "40px", height: "1px", background: `linear-gradient(to right, ${ev.accent}, transparent)`, marginBottom: "20px" }} />
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)", fontWeight: 300, lineHeight: 1.85, color: "#4a3728", marginBottom: "28px" }}>{ev.desc}</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)", fontWeight: 300, lineHeight: 1.85, color: textBody, marginBottom: "28px" }}>{ev.desc}</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {[{ icon: <Calendar size={13} />, text: ev.date }, { icon: <Clock size={13} />, text: ev.time }].map((row, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", fontWeight: 300, color: "#5a4535" }}>
-                <span style={{ color: ev.accent, opacity: 0.8, display: "flex" }}>{row.icon}</span>
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", fontWeight: 300, color: textMeta }}>
+                <span style={{ color: ev.accent, opacity: 0.9, display: "flex" }}>{row.icon}</span>
                 {row.text}
               </div>
             ))}
           </div>
-          <div style={{ position: "absolute", bottom: "-8px", right: "0px", width: "8px", height: "8px", borderRadius: "50%", background: ev.dot, opacity: 0.5 }} />
+          <div style={{ position: "absolute", bottom: "-8px", right: "0px", width: "8px", height: "8px", borderRadius: "50%", background: ev.dot, opacity: 0.6 }} />
         </div>
       </div>
     </div>
@@ -485,7 +568,7 @@ function VenueSection() {
           <MapPin size={15} style={{ color: "#4a6db5", marginTop: "2px", flexShrink: 0 }} />
           <span>Wai-Panchgani Rd, Dhandeghar, Panchgani, Maharashtra 412805</span>
         </div>
-        <div style={{ width: "100%", borderRadius: "14px", overflow: "hidden", height: "clamp(200px, 35vw, 300px)", background: "linear-gradient(135deg, #dce8f5, #e8d8f5)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", border: "1px solid #4a6db520" }}>
+        <div style={{ width: "100%", borderRadius: "14px", overflow: "hidden", height: "clamp(200px, 35vw, 300px)", backgroundImage: "url('/sherbaugh.jpg')", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", border: "1px solid #4a6db520" }}>
           <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.25 }}>
             {Array.from({ length: 8 }).map((_, i) => <line key={`h${i}`} x1="0" y1={`${i * 14}%`} x2="100%" y2={`${i * 14}%`} stroke="#4a6db5" strokeWidth="0.5" />)}
             {Array.from({ length: 12 }).map((_, i) => <line key={`v${i}`} x1={`${i * 9}%`} y1="0" x2={`${i * 9}%`} y2="100%" stroke="#4a6db5" strokeWidth="0.5" />)}
@@ -526,13 +609,13 @@ function Hero() {
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 6vw", position: "relative" }}>
       <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.30em", fontWeight: 700, textTransform: "uppercase", color: "#c9a96e", marginBottom: "22px", animation: "fadeIn 1.5s ease both" }}>With joy and blessings we invite you to celebrate the wedding of</div>
-      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.6rem, 10vw, 5.5rem)", fontWeight: 300, lineHeight: 1.1, color: "#2a1f14", letterSpacing: "0.04em", animation: "fadeUp 1.2s ease 0.2s both" }}>
+      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.6rem, 10vw, 5.5rem)", fontWeight: 300, lineHeight: 1.1, color: "#4c2f13", letterSpacing: "0.04em", animation: "fadeUp 1.2s ease 0.2s both" }}>
         Deepraj<br />
-        <span style={{ fontStyle: "italic", color: "#8a6a40" }}>&amp;</span><br />
+        <span style={{ fontStyle: "italic", color: "#4c2f13" }}>&amp;</span><br />
         Gouri
       </h1>
       <div style={{ width: "1px", height: "48px", background: "linear-gradient(to bottom, #c9a96e, transparent)", margin: "24px auto", animation: "fadeIn 1.2s ease 0.6s both" }} />
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.35em", color: "#7a6a52", animation: "fadeIn 1.2s ease 0.8s both" }}>April 25 – 26, 2026</div>
+      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.35em", color: "#c9a96e", animation: "fadeIn 1.2s ease 0.8s both" }}>April 25 – 26, 2026</div>
     </div>
   );
 }
