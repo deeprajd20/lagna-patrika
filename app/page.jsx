@@ -43,6 +43,17 @@ const FontLink = () => (
       box-shadow: 0 24px 60px rgba(0,0,0,0.12) !important;
     }
 
+    /* ── Mobile: all event cards centered ── */
+    @media (max-width: 600px) {
+      .event-card-row {
+        justify-content: center !important;
+        padding: 0 4vw !important;
+      }
+      .event-card-row .card-inner {
+        width: 100% !important;
+      }
+    }
+
     /* ── HALDI: marigold petals drift down ── */
     @keyframes haldi-petal {
       0%   { transform: translateY(-10px) rotate(0deg) scale(0.6); opacity: 0; }
@@ -105,15 +116,9 @@ function Preloader({ onDone }) {
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "32px",
       transition: "opacity 0.7s ease", opacity: hiding ? 0 : 1, pointerEvents: hiding ? "none" : "all",
     }}>
-      {/* <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 8vw, 3.5rem)", fontWeight: 300, color: "#2a1f14", letterSpacing: "0.08em", animation: "preloaderPulse 2s ease-in-out infinite", textAlign: "center", lineHeight: 1.3 }}>
-        Deepraj<br />
-        <span style={{ fontStyle: "italic", color: "#8a6a40", fontSize: "0.55em", letterSpacing: "0.25em" }}>&amp;</span><br />
-        Gouri
-      </div> */}
       <div style={{ width: "180px", height: "1px", background: "#e8d8c0", borderRadius: "2px", overflow: "hidden" }}>
         <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(to right, #c9a96e, #d4a017)", transition: "width 0.1s ease", borderRadius: "2px" }} />
       </div>
-      {/* <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", letterSpacing: "0.4em", color: "#c9a96e", textTransform: "uppercase", fontWeight: 300 }}>April 24 – 26, 2026</div> */}
     </div>
   );
 }
@@ -211,8 +216,6 @@ function Heart({ position, velocity, scale }) {
   );
 }
 function TunnelScene() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => { setIsMobile(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)); }, []);
   const COUNT = 40;
   const hearts = useMemo(() => Array.from({ length: COUNT }).map(() => ({
     position: [(Math.random() - 0.5) * 14, (Math.random() - 0.5) * 14, (Math.random() - 0.5) * 14],
@@ -256,48 +259,39 @@ function useReveal() {
 }
 
 /* ══════════════════════════════════════════════════════
-   PARTICLE EFFECTS — one component per event type
+   PARTICLE EFFECTS
 ══════════════════════════════════════════════════════ */
-
-/* HALDI — golden turmeric powder + marigold petals drift & shimmer */
 function HaldiParticles() {
   const [items, setItems] = useState([]);
   useEffect(() => {
     setItems(Array.from({ length: 22 }).map((_, i) => {
       const isPetal = i < 10;
       return {
-        id: i,
-        isPetal,
+        id: i, isPetal,
         left: `${5 + Math.random() * 90}%`,
         top: `-${5 + Math.random() * 30}px`,
         size: isPetal ? 10 + Math.random() * 10 : 4 + Math.random() * 6,
         delay: `${(Math.random() * 4).toFixed(2)}s`,
         duration: `${(3 + Math.random() * 3).toFixed(2)}s`,
         rotate: Math.random() * 360,
-        // petals are orange/gold, powder puffs are yellow
         color: isPetal
           ? ["#f5a623", "#e8850a", "#ffc845", "#ff8c00"][Math.floor(Math.random() * 4)]
           : ["#FFD700", "#FFC200", "#ffe066", "#fff0a0"][Math.floor(Math.random() * 4)],
       };
     }));
   }, []);
-
   return (
     <>
       {items.map(d => (
         <div key={d.id} style={{
-          position: "absolute",
-          left: d.left,
-          top: d.top,
-          width: `${d.size}px`,
-          height: d.isPetal ? `${d.size * 1.6}px` : `${d.size}px`,
+          position: "absolute", left: d.left, top: d.top,
+          width: `${d.size}px`, height: d.isPetal ? `${d.size * 1.6}px` : `${d.size}px`,
           background: d.isPetal
             ? `radial-gradient(ellipse at 40% 30%, ${d.color} 0%, ${d.color}aa 60%, transparent 100%)`
             : `radial-gradient(circle, ${d.color} 0%, ${d.color}88 50%, transparent 100%)`,
           borderRadius: d.isPetal ? "50% 50% 50% 50% / 60% 60% 40% 40%" : "50%",
           boxShadow: `0 0 ${d.size}px ${d.color}88`,
-          pointerEvents: "none",
-          zIndex: 5,
+          pointerEvents: "none", zIndex: 5,
           animation: `haldi-petal ${d.duration} ${d.delay} ease-in infinite`,
           transform: `rotate(${d.rotate}deg)`,
         }} />
@@ -305,50 +299,35 @@ function HaldiParticles() {
     </>
   );
 }
-
-/* SANGEET — colourful music note sparkles + glitter */
 function SangeetParticles() {
   const [items, setItems] = useState([]);
   useEffect(() => {
     const colors = ["#ffffff", "#e0c8ff", "#ffd6fa", "#ffe599", "#c084fc", "#f9a8d4", "#a5f3fc", "#86efac"];
     setItems(Array.from({ length: 24 }).map((_, i) => ({
       id: i,
-      left: `${5 + Math.random() * 90}%`,
-      top: `${10 + Math.random() * 85}%`,
+      left: `${5 + Math.random() * 90}%`, top: `${10 + Math.random() * 85}%`,
       size: 5 + Math.random() * 9,
-      delay: `${(Math.random() * 4).toFixed(2)}s`,
-      duration: `${(1.4 + Math.random() * 2).toFixed(2)}s`,
+      delay: `${(Math.random() * 4).toFixed(2)}s`, duration: `${(1.4 + Math.random() * 2).toFixed(2)}s`,
       color: colors[Math.floor(Math.random() * colors.length)],
-      // some are star shapes via clip-path
       isStar: i < 8,
     })));
   }, []);
-
   return (
     <>
       {items.map(d => (
         <div key={d.id} style={{
-          position: "absolute",
-          left: d.left,
-          top: d.top,
-          width: `${d.size}px`,
-          height: `${d.size}px`,
-          background: d.color,
-          clipPath: d.isStar
-            ? "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)"
-            : undefined,
+          position: "absolute", left: d.left, top: d.top,
+          width: `${d.size}px`, height: `${d.size}px`, background: d.color,
+          clipPath: d.isStar ? "polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)" : undefined,
           borderRadius: d.isStar ? "0" : "50%",
           boxShadow: `0 0 ${d.size * 1.5}px ${d.color}, 0 0 ${d.size * 3}px ${d.color}80`,
-          pointerEvents: "none",
-          zIndex: 5,
+          pointerEvents: "none", zIndex: 5,
           animation: `sangeet-sparkle ${d.duration} ${d.delay} ease-in-out infinite`,
         }} />
       ))}
     </>
   );
 }
-
-/* SAPTAPADI — fire embers & sparks drift upward */
 function SaptapadiParticles() {
   const [items, setItems] = useState([]);
   useEffect(() => {
@@ -356,31 +335,23 @@ function SaptapadiParticles() {
       const isLargeEmber = i < 6;
       return {
         id: i,
-        left: `${15 + Math.random() * 70}%`,
-        bottom: `${5 + Math.random() * 30}%`,
+        left: `${15 + Math.random() * 70}%`, bottom: `${5 + Math.random() * 30}%`,
         size: isLargeEmber ? 8 + Math.random() * 8 : 3 + Math.random() * 5,
-        delay: `${(Math.random() * 3).toFixed(2)}s`,
-        duration: `${(2 + Math.random() * 2.5).toFixed(2)}s`,
+        delay: `${(Math.random() * 3).toFixed(2)}s`, duration: `${(2 + Math.random() * 2.5).toFixed(2)}s`,
         color: ["#FF6B00", "#FF4500", "#FF8C00", "#FFD700", "#FF2200", "#ffaa00"][Math.floor(Math.random() * 6)],
-        wobble: (Math.random() - 0.5) * 30,
       };
     }));
   }, []);
-
   return (
     <>
       {items.map(d => (
         <div key={d.id} style={{
-          position: "absolute",
-          left: d.left,
-          bottom: d.bottom,
-          width: `${d.size}px`,
-          height: `${d.size * 1.5}px`,
+          position: "absolute", left: d.left, bottom: d.bottom,
+          width: `${d.size}px`, height: `${d.size * 1.5}px`,
           background: `radial-gradient(ellipse at 50% 70%, ${d.color} 0%, ${d.color}cc 40%, transparent 100%)`,
           borderRadius: "50% 50% 40% 40%",
           boxShadow: `0 0 ${d.size * 2}px ${d.color}, 0 0 ${d.size * 4}px ${d.color}60`,
-          pointerEvents: "none",
-          zIndex: 5,
+          pointerEvents: "none", zIndex: 5,
           animation: `saptapadi-ember ${d.duration} ${d.delay} ease-out infinite`,
           filter: "blur(0.4px)",
         }} />
@@ -388,21 +359,16 @@ function SaptapadiParticles() {
     </>
   );
 }
-
-/* VARMALA — rose petals + flower confetti fall */
 function VarmalaParticles() {
   const [items, setItems] = useState([]);
   useEffect(() => {
     setItems(Array.from({ length: 22 }).map((_, i) => {
       const isPetal = i < 14;
       return {
-        id: i,
-        isPetal,
-        left: `${Math.random() * 100}%`,
-        top: `-${10 + Math.random() * 40}px`,
+        id: i, isPetal,
+        left: `${Math.random() * 100}%`, top: `-${10 + Math.random() * 40}px`,
         size: isPetal ? 8 + Math.random() * 12 : 5 + Math.random() * 7,
-        delay: `${(Math.random() * 5).toFixed(2)}s`,
-        duration: `${(3.5 + Math.random() * 3).toFixed(2)}s`,
+        delay: `${(Math.random() * 5).toFixed(2)}s`, duration: `${(3.5 + Math.random() * 3).toFixed(2)}s`,
         rotate: Math.random() * 360,
         color: isPetal
           ? ["#ff6b9d", "#ff8fab", "#ffb3c6", "#ffc8dd", "#ff4d79", "#e91e8c"][Math.floor(Math.random() * 6)]
@@ -410,23 +376,18 @@ function VarmalaParticles() {
       };
     }));
   }, []);
-
   return (
     <>
       {items.map(d => (
         <div key={d.id} style={{
-          position: "absolute",
-          left: d.left,
-          top: d.top,
-          width: `${d.size}px`,
-          height: d.isPetal ? `${d.size * 1.8}px` : `${d.size}px`,
+          position: "absolute", left: d.left, top: d.top,
+          width: `${d.size}px`, height: d.isPetal ? `${d.size * 1.8}px` : `${d.size}px`,
           background: d.isPetal
             ? `radial-gradient(ellipse at 40% 20%, ${d.color}ff 0%, ${d.color}bb 50%, transparent 100%)`
             : d.color,
           borderRadius: d.isPetal ? "50% 50% 50% 50% / 70% 70% 30% 30%" : "30%",
           boxShadow: d.isPetal ? `0 2px 8px ${d.color}60` : "none",
-          pointerEvents: "none",
-          zIndex: 5,
+          pointerEvents: "none", zIndex: 5,
           animation: `varmala-petal ${d.duration} ${d.delay} ease-in infinite`,
           transform: `rotate(${d.rotate}deg)`,
         }} />
@@ -434,8 +395,6 @@ function VarmalaParticles() {
     </>
   );
 }
-
-/* Map event key → particle component */
 function CardParticles({ eventKey }) {
   switch (eventKey) {
     case "haldi": return <HaldiParticles />;
@@ -454,10 +413,11 @@ function EventCard({ ev, index }) {
 
   return (
     <div
-      className="reveal"
+      className="reveal event-card-row"
       style={{
         transitionDelay: `${index * 0.08}s`,
         display: "flex",
+        // On desktop: alternate left/right. The CSS media query overrides to center on mobile.
         justifyContent: isEven ? "flex-start" : "flex-end",
         padding: "0 5vw",
         marginBottom: "clamp(60px, 10vh, 120px)",
@@ -473,30 +433,22 @@ function EventCard({ ev, index }) {
           padding: "clamp(28px, 5vw, 44px)",
           boxShadow: `0 8px 36px ${ev.dot}44, 0 2px 12px rgba(0,0,0,0.06)`,
           position: "relative",
-          overflow: "visible",   // lets particles escape card boundary
+          overflow: "visible",
         }}
       >
         {/* Decorative rings */}
         <div style={{ position: "absolute", top: "-30px", right: "-30px", width: "160px", height: "160px", borderRadius: "50%", border: `2px solid ${ev.accent}22`, pointerEvents: "none", zIndex: 0 }} />
         <div style={{ position: "absolute", top: "-10px", right: "-10px", width: "100px", height: "100px", borderRadius: "50%", border: `1.5px solid ${ev.accent}30`, pointerEvents: "none", zIndex: 0 }} />
 
-        {/* ✨ Themed particles — rendered client-side only */}
         <CardParticles eventKey={ev.key} />
 
-        {/* All content above particles */}
         <div style={{ position: "relative", zIndex: 2 }}>
           <div style={{ fontSize: "2rem", marginBottom: "18px", display: "inline-block", animation: "floatY 4s ease-in-out infinite" }}>{ev.icon}</div>
-
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", color: ev.accent, letterSpacing: "0.15em", marginBottom: "4px", opacity: 0.75 }}>{ev.hindi}</div>
-
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 6vw, 2.8rem)", fontWeight: 300, color: "#2a1f14", letterSpacing: "0.04em", lineHeight: 1.1, marginBottom: "6px" }}>{ev.label}</h2>
-
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 500, letterSpacing: "0.25em", color: ev.accent, textTransform: "uppercase", marginBottom: "20px" }}>{ev.tagline}</p>
-
           <div style={{ width: "40px", height: "1px", background: `linear-gradient(to right, ${ev.accent}, transparent)`, marginBottom: "20px" }} />
-
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)", fontWeight: 300, lineHeight: 1.85, color: "#4a3728", marginBottom: "28px" }}>{ev.desc}</p>
-
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {[{ icon: <Calendar size={13} />, text: ev.date }, { icon: <Clock size={13} />, text: ev.time }].map((row, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "'Jost', sans-serif", fontSize: "0.8rem", fontWeight: 300, color: "#5a4535" }}>
@@ -505,7 +457,6 @@ function EventCard({ ev, index }) {
               </div>
             ))}
           </div>
-
           <div style={{ position: "absolute", bottom: "-8px", right: "0px", width: "8px", height: "8px", borderRadius: "50%", background: ev.dot, opacity: 0.5 }} />
         </div>
       </div>
@@ -522,7 +473,6 @@ function VenueSection() {
       <div className="card-inner" style={{ width: "min(860px, 92vw)", margin: "0 auto", background: "#EEF4FF", borderRadius: "24px", padding: "clamp(32px, 5vw, 52px)", boxShadow: "0 8px 32px rgba(0,0,0,0.07)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-40px", left: "-40px", width: "200px", height: "200px", borderRadius: "50%", border: "1.5px solid #6a8ed422", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "-20px", right: "-20px", width: "120px", height: "120px", borderRadius: "50%", border: "1.5px solid #6a8ed433", pointerEvents: "none" }} />
-
         <div style={{ fontSize: "1.8rem", marginBottom: "14px" }}>📍</div>
         <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.28em", color: "#4a6db5", textTransform: "uppercase", marginBottom: "6px" }}>The Venue</div>
         <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.8rem, 5vw, 2.6rem)", fontWeight: 300, color: "#1a2a4a", letterSpacing: "0.04em", lineHeight: 1.15, marginBottom: "8px" }}>Sherbaug A Theme Park & Resort</h2>
@@ -535,7 +485,6 @@ function VenueSection() {
           <MapPin size={15} style={{ color: "#4a6db5", marginTop: "2px", flexShrink: 0 }} />
           <span>Wai-Panchgani Rd, Dhandeghar, Panchgani, Maharashtra 412805</span>
         </div>
-
         <div style={{ width: "100%", borderRadius: "14px", overflow: "hidden", height: "clamp(200px, 35vw, 300px)", background: "linear-gradient(135deg, #dce8f5, #e8d8f5)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", border: "1px solid #4a6db520" }}>
           <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.25 }}>
             {Array.from({ length: 8 }).map((_, i) => <line key={`h${i}`} x1="0" y1={`${i * 14}%`} x2="100%" y2={`${i * 14}%`} stroke="#4a6db5" strokeWidth="0.5" />)}
@@ -550,7 +499,6 @@ function VenueSection() {
             <div style={{ marginTop: "6px", fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.15em", color: "#1a2a4a", fontWeight: 400, background: "rgba(255,255,255,0.85)", padding: "4px 10px", borderRadius: "20px", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>Sherbaug A Theme Park & Resort</div>
           </div>
         </div>
-
         <a href="https://maps.app.goo.gl/VDoCPqc8wDdu4dej9" target="_blank" rel="noopener noreferrer"
           style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginTop: "22px", fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "#fff", background: "#4a6db5", padding: "12px 28px", borderRadius: "40px", textDecoration: "none", boxShadow: "0 4px 18px rgba(74,109,181,0.3)", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
           onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 28px rgba(74,109,181,0.4)"; }}
