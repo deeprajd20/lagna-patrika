@@ -30,6 +30,32 @@ const FontLink = () => (
       0%,100% { opacity: 0.5; transform: scale(0.97); }
       50%      { opacity: 1;   transform: scale(1.03); }
     }
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes rotateSlowReverse {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(-360deg); }
+    }
+    @keyframes heroPetalFall {
+      0%   { transform: translateY(-20px) translateX(0px) rotate(0deg) scale(0.7); opacity: 0; }
+      8%   { opacity: 0.9; }
+      85%  { opacity: 0.6; }
+      100% { transform: translateY(110vh) translateX(40px) rotate(540deg) scale(1); opacity: 0; }
+    }
+    @keyframes shimmerGold {
+      0%,100% { opacity: 0.5; }
+      50%      { opacity: 1; }
+    }
+    @keyframes drawLine {
+      from { stroke-dashoffset: 1000; }
+      to   { stroke-dashoffset: 0; }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.88); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
     .reveal {
       opacity: 0; transform: translateY(40px);
       transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1);
@@ -143,15 +169,15 @@ const EVENTS = [
     key: "haldi",
     label: "Haldi",
     hindi: "हल्दी",
-    tagline: "Golden beginnings ",
+    tagline: "Golden beginnings",
     desc: "Where turmeric meets tradition — a morning of laughter, blessings, and the warm glow of marigolds as family gathers to anoint the couple with love.",
     date: "April 25, 2026",
     time: "11:00 AM onwards",
+    dressCode: "Yellow & Marigold tones",
     pastel: "#FFF3C4",
     accent: "#D4A017",
     dot: "#e6b800",
     icon: "🌼",
-    tagline2:"Dress Code : 'Yellow'"
   },
   {
     key: "sangeet",
@@ -198,7 +224,7 @@ const EVENTS = [
     hindi: "स्वागत समारोह",
     tagline: "A night to remember forever",
     desc: "The grand finale — an evening of elegance, laughter, and celebration as the newlyweds are welcomed into their shared life. Music fills the air, lights shimmer, and the night belongs entirely to love.",
-    date: "April 28, 2026",
+    date: "April 26, 2026",
     time: "7:30 PM onwards",
     pastel: "#1a1035",
     accent: "#c9a96e",
@@ -238,12 +264,12 @@ function Heart({ position, velocity, scale }) {
   return (
     <mesh ref={ref} position={position} scale={scale}>
       <extrudeGeometry args={[shape, { depth: 0.4, bevelEnabled: true, bevelSize: 0.08, bevelThickness: 0.08 }]} />
-      <meshPhysicalMaterial color="#ff4d4d" roughness={0} transmission={0.2} thickness={0.6} transparent opacity={0.7} metalness={0} reflectivity={0.8} clearcoat={0.6} clearcoatRoughness={0} ior={1.5} />
+      <meshPhysicalMaterial color="#ff4d4d" roughness={0} transmission={0.8} thickness={0.6} transparent opacity={0.75} metalness={0} reflectivity={0.8} clearcoat={0.6} clearcoatRoughness={0} ior={1.5} />
     </mesh>
   );
 }
 function TunnelScene() {
-  const COUNT = 40;
+  const COUNT =50;
   const hearts = useMemo(() => Array.from({ length: COUNT }).map(() => ({
     position: [(Math.random() - 0.5) * 14, (Math.random() - 0.5) * 14, (Math.random() - 0.5) * 14],
     velocity: [(Math.random() - 0.5) * 0.015, (Math.random() - 0.5) * 0.015, (Math.random() - 0.5) * 0.015],
@@ -562,19 +588,19 @@ function VenueSection() {
         <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 200, letterSpacing: "0.2em", color: "#4a6db5", textTransform: "uppercase", marginBottom: "20px" }}>A celebration befitting the moment</p>
         <div style={{ width: "40px", height: "1px", background: "linear-gradient(to right, #4a6db5, transparent)", marginBottom: "22px" }} />
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)", fontWeight: 300, lineHeight: 1.85, color: "#2a3a5a", marginBottom: "30px", maxWidth: "560px" }}>
-          Nestled among ancient banyan groves, The Grand Estate is where history meets festivity. Its pillared halls and open courtyards have witnessed a hundred weddings, and now it will witness yours.
+          Nestled among ancient banyan groves, The Sherbaugh : A Theme Park and Resort is where history meets festivity. Its pillared halls and open courtyards have witnessed a hundred weddings, and now it will witness ours.
         </p>
         <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontFamily: "'Jost', sans-serif", fontSize: "0.82rem", fontWeight: 300, color: "#3a4a6a", marginBottom: "28px" }}>
           <MapPin size={15} style={{ color: "#4a6db5", marginTop: "2px", flexShrink: 0 }} />
           <span>Wai-Panchgani Rd, Dhandeghar, Panchgani, Maharashtra 412805</span>
         </div>
         <div style={{ width: "100%", borderRadius: "14px", overflow: "hidden", height: "clamp(200px, 35vw, 300px)", backgroundImage: "url('/sherbaugh.jpg')", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", border: "1px solid #4a6db520" }}>
-          <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.25 }}>
+          {/* <svg width="100%" height="100%" style={{ position: "absolute", inset: 0, opacity: 0.25 }}>
             {Array.from({ length: 8 }).map((_, i) => <line key={`h${i}`} x1="0" y1={`${i * 14}%`} x2="100%" y2={`${i * 14}%`} stroke="#4a6db5" strokeWidth="0.5" />)}
             {Array.from({ length: 12 }).map((_, i) => <line key={`v${i}`} x1={`${i * 9}%`} y1="0" x2={`${i * 9}%`} y2="100%" stroke="#4a6db5" strokeWidth="0.5" />)}
             <line x1="0" y1="60%" x2="45%" y2="20%" stroke="#4a6db5" strokeWidth="1.5" opacity="0.4" />
             <line x1="55%" y1="80%" x2="100%" y2="30%" stroke="#4a6db5" strokeWidth="1.5" opacity="0.4" />
-          </svg>
+          </svg> */}
           <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", animation: "floatY 3s ease-in-out infinite" }}>
             <div style={{ width: "44px", height: "44px", borderRadius: "50% 50% 50% 0", background: "#4a6db5", transform: "rotate(-45deg)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 24px rgba(74,109,181,0.4)" }}>
               <div style={{ transform: "rotate(45deg)", fontSize: "1rem" }}>📍</div>
@@ -595,27 +621,284 @@ function VenueSection() {
 }
 
 /* ══════════════════════════════════════════════════════
-   DIVIDER & HERO
+   HERO FALLING PETALS
 ══════════════════════════════════════════════════════ */
-function ChapterDivider({ label }) {
+function HeroPetals() {
+  const [petals, setPetals] = useState([]);
+  useEffect(() => {
+    setPetals(Array.from({ length: 14 }).map((_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      size: 7 + Math.random() * 9,
+      delay: `${(Math.random() * 10).toFixed(2)}s`,
+      duration: `${(9 + Math.random() * 7).toFixed(2)}s`,
+      color: ["#d4a843", "#e8c06a", "#f0d898", "#c8883a", "#e2b458"][Math.floor(Math.random() * 5)],
+      rotate: Math.random() * 360,
+    })));
+  }, []);
   return (
-    <div className="reveal" style={{ textAlign: "center", padding: "clamp(40px, 7vh, 80px) 0 clamp(30px, 5vh, 56px)" }}>
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.42em", textTransform: "uppercase", color: "#a08060" }}>{label}</div>
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 2 }}>
+      {petals.map(p => (
+        <div key={p.id} style={{
+          position: "absolute", top: "-20px", left: p.left,
+          width: `${p.size}px`, height: `${p.size * 1.7}px`,
+          background: `radial-gradient(ellipse at 40% 30%, ${p.color}cc 0%, ${p.color}44 65%, transparent 100%)`,
+          borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+          animation: `heroPetalFall ${p.duration} ${p.delay} ease-in infinite`,
+          transform: `rotate(${p.rotate}deg)`,
+        }} />
+      ))}
     </div>
   );
 }
 
+/* ══════════════════════════════════════════════════════
+   PHOTO FRAME — ornate rectangular border like a real
+   wedding invitation, with a couple-silhouette inside
+══════════════════════════════════════════════════════ */
+function PhotoFrame() {
+  const W = 280, H = 340;
+  const pad = 18; // inner padding for decorative border
+
+  // Corner ornament path (a small leafy curl)
+  const cornerPath = (x, y, rot) => (
+    <g key={rot} transform={`translate(${x},${y}) rotate(${rot})`}>
+      {/* Two curved branches */}
+      <path d="M0,0 C4,-6 12,-8 16,-4" fill="none" stroke="#c9a96e" strokeWidth="1.2" opacity="0.9" />
+      <path d="M0,0 C6,-4 8,-12 4,-16" fill="none" stroke="#c9a96e" strokeWidth="1.2" opacity="0.9" />
+      {/* Tiny leaves */}
+      <ellipse cx="14" cy="-5" rx="3.5" ry="1.8" fill="#c9a96e" opacity="0.7" transform="rotate(-20 14 -5)" />
+      <ellipse cx="5" cy="-14" rx="3.5" ry="1.8" fill="#c9a96e" opacity="0.7" transform="rotate(70 5 -14)" />
+      <circle cx="0" cy="0" r="2" fill="#c9a96e" opacity="0.85" />
+    </g>
+  );
+
+  // Side floral sprigs (small flower on each side midpoint)
+  const sideSprg = (x, y, rot) => (
+    <g key={`s-${x}-${y}-${rot}`} transform={`translate(${x},${y}) rotate(${rot})`}>
+      <line x1="-14" y1="0" x2="14" y2="0" stroke="#c9a96e" strokeWidth="0.8" opacity="0.6" />
+      {[-8, 0, 8].map((ox, i) => (
+        <g key={i} transform={`translate(${ox},0)`}>
+          <circle cx="0" cy="0" r={i === 1 ? 3 : 2} fill={i === 1 ? "#c9a96e" : "none"} stroke="#c9a96e" strokeWidth="0.8" opacity="0.8" />
+        </g>
+      ))}
+    </g>
+  );
+
+  return (
+    <div style={{
+      position: "relative", width: `${W}px`, height: `${H}px`,
+      flexShrink: 0,
+      animation: "scaleIn 1.4s cubic-bezier(0.22,1,0.36,1) 0.4s both",
+    }}>
+      {/* SVG decorative border */}
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }}>
+        <defs>
+          <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#e8c96e" />
+            <stop offset="40%" stopColor="#f5dfa0" />
+            <stop offset="100%" stopColor="#c9a040" />
+          </linearGradient>
+        </defs>
+
+        {/* Outer rect */}
+        <rect x="4" y="4" width={W - 8} height={H - 8} rx="4" fill="none" stroke="url(#goldBorder)" strokeWidth="1.5" opacity="0.9" />
+        {/* Inner rect */}
+        <rect x={pad} y={pad} width={W - pad * 2} height={H - pad * 2} rx="2" fill="none" stroke="#c9a96e" strokeWidth="0.7" opacity="0.5" />
+        {/* Mid accent rect */}
+        <rect x="10" y="10" width={W - 20} height={H - 20} rx="3" fill="none" stroke="#c9a96e" strokeWidth="0.4" opacity="0.3" />
+
+        {/* Corner ornaments — all four corners */}
+        {cornerPath(pad + 2, pad + 2, 0)}
+        {cornerPath(W - pad - 2, pad + 2, 90)}
+        {cornerPath(W - pad - 2, H - pad - 2, 180)}
+        {cornerPath(pad + 2, H - pad - 2, 270)}
+
+        {/* Side midpoint sprigs */}
+        {sideSprg(W / 2, 4, 0)}
+        {sideSprg(W / 2, H - 4, 0)}
+        {sideSprg(4, H / 2, 90)}
+        {sideSprg(W - 4, H / 2, 90)}
+
+        {/* Corner diamond dots */}
+        {[[4, 4], [W - 4, 4], [W - 4, H - 4], [4, H - 4]].map(([x, y], i) => (
+          <rect key={i} x={x - 3} y={y - 3} width="6" height="6" rx="1" fill="#c9a96e" opacity="0.7" transform={`rotate(45 ${x} ${y})`} />
+        ))}
+      </svg>
+
+      {/* Photo area */}
+      <div style={{
+        position: "absolute",
+        top: `${pad + 6}px`, left: `${pad + 6}px`,
+        right: `${pad + 6}px`, bottom: `${pad + 6}px`,
+        borderRadius: "2px",
+        overflow: "hidden",
+        background: "linear-gradient(160deg, #f5ece0 0%, #e8d4b4 50%, #dfc9a8 100%)",
+      }}>
+        {/* Rich illustrated SVG scene: couple silhouette + marigold garland + mandap */}
+        <img
+          src="/couple.jpeg"
+          alt="Couple"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition:"59% center"
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════════════════════ */
+function ChapterDivider({ label }) {
+  return (
+    <div className="reveal" style={{ textAlign: "center", padding: "clamp(40px,7vh,80px) 0 clamp(30px,5vh,56px)" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", padding: "0 clamp(20px,8vw,80px)" }}>
+        <svg width="100" height="16" viewBox="0 0 100 16" style={{ flex: 1, maxWidth: "160px", opacity: 0.55 }}>
+          <line x1="0" y1="8" x2="68" y2="8" stroke="#c9a96e" strokeWidth="0.8" />
+          <circle cx="74" cy="8" r="2.5" fill="none" stroke="#c9a96e" strokeWidth="0.8" />
+          <circle cx="83" cy="8" r="1.5" fill="#c9a96e" />
+          <circle cx="92" cy="8" r="2.5" fill="none" stroke="#c9a96e" strokeWidth="0.8" />
+        </svg>
+        <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.6rem", fontWeight: 700, letterSpacing: "0.42em", textTransform: "uppercase", color: "#a08060", whiteSpace: "nowrap", flexShrink: 0 }}>{label}</div>
+        <svg width="100" height="16" viewBox="0 0 100 16" style={{ flex: 1, maxWidth: "160px", opacity: 0.55, transform: "scaleX(-1)" }}>
+          <line x1="0" y1="8" x2="68" y2="8" stroke="#c9a96e" strokeWidth="0.8" />
+          <circle cx="74" cy="8" r="2.5" fill="none" stroke="#c9a96e" strokeWidth="0.8" />
+          <circle cx="83" cy="8" r="1.5" fill="#c9a96e" />
+          <circle cx="92" cy="8" r="2.5" fill="none" stroke="#c9a96e" strokeWidth="0.8" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════
+   HERO — full redesign
+   Layout: invitation header → ornate photo frame →
+           large names → date & venue pill → scroll cue
+══════════════════════════════════════════════════════ */
 function Hero() {
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 6vw", position: "relative" }}>
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.30em", fontWeight: 700, textTransform: "uppercase", color: "#c9a96e", marginBottom: "22px", animation: "fadeIn 1.5s ease both" }}>With joy and blessings we invite you to celebrate the wedding of</div>
-      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.6rem, 10vw, 5.5rem)", fontWeight: 300, lineHeight: 1.1, color: "#4c2f13", letterSpacing: "0.04em", animation: "fadeUp 1.2s ease 0.2s both" }}>
-        Deepraj<br />
-        <span style={{ fontStyle: "italic", color: "#4c2f13" }}>&amp;</span><br />
-        Gouri
-      </h1>
-      <div style={{ width: "1px", height: "48px", background: "linear-gradient(to bottom, #c9a96e, transparent)", margin: "24px auto", animation: "fadeIn 1.2s ease 0.6s both" }} />
-      <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.35em", color: "#c9a96e", animation: "fadeIn 1.2s ease 0.8s both" }}>April 25 – 26, 2026</div>
+    <div style={{
+      minHeight: "100vh", display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center",
+      textAlign: "center", padding: "clamp(60px,10vh,90px) 6vw clamp(50px,8vh,80px)",
+      position: "relative", overflow: "hidden", gap: 0,
+    }}>
+      {/* <HeroPetals /> */}
+
+      {/* ── Header text ── */}
+      <div style={{ position: "relative", zIndex: 3, marginBottom: "28px",marginTop:"-60px", animation: "fadeIn 1.6s ease both" }}>
+        <div style={{
+          fontFamily: "'Jost', sans-serif", fontSize: "0.58rem",
+          letterSpacing: "0.38em", fontWeight: 400,
+          textTransform: "uppercase", color: "#7f5c1b", opacity: 0.85
+        }}>
+          Together with their families
+        </div>
+        <div style={{
+          fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.85rem,2.2vw,1rem)",
+          fontWeight: 500, fontStyle: "italic", color: "#8a6a40", marginTop: "6px", opacity: 0.9,
+        }}>
+          joyfully invite you to the wedding of
+        </div>
+      </div>
+
+      {/* ── Photo frame ── */}
+      <div style={{ position: "relative", zIndex: 3, marginBottom: "30px" }}>
+        <PhotoFrame />
+      </div>
+
+      {/* ── Couple names — big, bold, unmissable ── */}
+      <div style={{ position: "relative", zIndex: 3, animation: "fadeUp 1.2s ease 0.6s both" }}>
+        {/* Name 1 */}
+        <div style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "clamp(2rem, 11vw, 6rem)",
+          fontWeight: 300, lineHeight: 1, color: "#805326",
+          letterSpacing: "0.04em",
+        }}>
+          Deepraj
+        </div>
+
+        {/* Ornamental & */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "14px", margin: "4px 0 2px" }}>
+          <svg width="80" height="10" viewBox="0 0 80 10"><line x1="0" y1="5" x2="30" y2="5" stroke="#c9a96e" strokeWidth="0.8" opacity="0.6" /><circle cx="37" cy="5" r="1.8" fill="#c9a96e" opacity="0.7" /><circle cx="43" cy="5" r="1.2" fill="#c9a96e" opacity="0.5" /><line x1="50" y1="5" x2="80" y2="5" stroke="#c9a96e" strokeWidth="0.8" opacity="0.6" /></svg>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(1.6rem,5vw,3rem)", color: "#b8843a", lineHeight: 1 }}>&amp;</span>
+          <svg width="80" height="10" viewBox="0 0 80 10" style={{ transform: "scaleX(-1)" }}><line x1="0" y1="5" x2="30" y2="5" stroke="#c9a96e" strokeWidth="0.8" opacity="0.6" /><circle cx="37" cy="5" r="1.8" fill="#c9a96e" opacity="0.7" /><circle cx="43" cy="5" r="1.2" fill="#c9a96e" opacity="0.5" /><line x1="50" y1="5" x2="80" y2="5" stroke="#c9a96e" strokeWidth="0.8" opacity="0.6" /></svg>
+        </div>
+
+        {/* Name 2 */}
+        <div style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "clamp(2rem, 11vw, 6rem)",
+          fontWeight: 300, lineHeight: 1, color: "#805326",
+          letterSpacing: "0.04em",
+        }}>
+          Gouri
+        </div>
+      </div>
+
+      {/* ── Date + venue info block ── */}
+      <div style={{
+        position: "relative", zIndex: 3, marginTop: "28px",
+        animation: "fadeIn 1.2s ease 1s both",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "12px",
+      }}>
+        <div style={{ width: "1px", height: "32px", background: "linear-gradient(to bottom, #c9a96e, transparent)" }} />
+
+        {/* Date pill
+        <div style={{
+          display: "flex", alignItems: "center", gap: "0",
+          border: "1px solid #c9a96e66",
+          borderRadius: "4px",
+          overflow: "hidden",
+          background: "rgba(253,248,242,0.8)",
+          backdropFilter: "blur(6px)",
+        }}>
+          {[
+            { label: "Day", value: "25–26" },
+            { label: "Month", value: "April" },
+            { label: "Year", value: "2026" },
+          ].map((item, i) => (
+            <div key={i} style={{
+              padding: "10px 18px",
+              borderRight: i < 2 ? "1px solid #c9a96e44" : "none",
+              display: "flex", flexDirection: "column", alignItems: "center", gap: "3px",
+            }}>
+              <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.48rem", letterSpacing: "0.3em", color: "#c9a96e", textTransform: "uppercase", opacity: 0.8 }}>{item.label}</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1rem,3vw,1.3rem)", fontWeight: 400, color: "#2a1f14", letterSpacing: "0.06em" }}>{item.value}</div>
+            </div>
+          ))}
+        </div> */}
+
+        {/* Venue line */}
+        {/* <div style={{
+          display: "flex", alignItems: "center", gap: "8px",
+          fontFamily: "'Jost', sans-serif", fontSize: "0.6rem",
+          letterSpacing: "0.25em", color: "#8a7060",
+          textTransform: "uppercase", fontWeight: 300,
+        }}>
+          <MapPin size={11} style={{ color: "#c9a96e", flexShrink: 0 }} />
+          Sherbaug Resort · Panchgani, Maharashtra
+        </div> */}
+      </div>
+
+      {/* ── Scroll cue ── */}
+      <div style={{
+        position: "absolute", bottom: "24px", left: "50%", transform: "translateX(-50%)",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "5px",
+        animation: "fadeIn 2.5s ease 2s both", zIndex: 3, opacity: 0.5,
+      }}>
+        {/* <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.48rem", letterSpacing: "0.38em", color: "#c9a96e", textTransform: "uppercase" }}>Explore</div> */}
+        <svg width="10" height="18" viewBox="0 0 10 18" style={{ animation: "floatY 2s ease-in-out infinite" }}>
+          <path d="M5 0 L5 12 M1 8 L5 12 L9 8" fill="none" stroke="#c9a96e" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
     </div>
   );
 }
@@ -650,7 +933,7 @@ export default function WeddingEventsPage() {
           <VenueSection />
           <footer style={{ textAlign: "center", padding: "clamp(50px, 10vh, 90px) 24px clamp(40px, 8vh, 70px)", fontFamily: "'Cormorant Garamond', serif" }}>
             <div className="reveal" style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", fontWeight: 300, color: "#3a2e1e", letterSpacing: "0.1em", marginBottom: "14px" }}>Deepraj &amp; Gouri</div>
-            <div className="reveal" style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", fontWeight: 200, letterSpacing: "0.38em", color: "#c9a96e", textTransform: "uppercase" }}>April 26, 2026 · With love</div>
+            <div className="reveal" style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", fontWeight: 500, letterSpacing: "0.28em", color: "#3a2e1e", textTransform: "uppercase" }}>April 26, 2026 · With love</div>
             <div style={{ width: "1px", height: "48px", background: "linear-gradient(to bottom, #c9a96e44, transparent)", margin: "28px auto 0" }} />
           </footer>
         </div>
