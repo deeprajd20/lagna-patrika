@@ -265,7 +265,7 @@ function Heart({ position, velocity, scale }) {
   return (
     <mesh ref={ref} position={position} scale={scale}>
       <extrudeGeometry args={[shape, { depth: 0.4, bevelEnabled: true, bevelSize: 0.08, bevelThickness: 0.08 }]} />
-      <meshPhysicalMaterial color="#ff4d4d" roughness={0} transmission={0.8} thickness={0.6} transparent opacity={0.75} metalness={0} reflectivity={0.8} clearcoat={0.6} clearcoatRoughness={0} ior={1.5} />
+      <meshPhysicalMaterial color="#f62e2e" roughness={0} transmission={0.8} thickness={0.6} transparent opacity={0.75} metalness={0} reflectivity={0.8} clearcoat={0.6} clearcoatRoughness={0} ior={1.5} />
     </mesh>
   );
 }
