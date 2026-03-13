@@ -226,7 +226,7 @@ const RECEPTION_EVENT = {
   hindi: "स्वागत समारोह",
   tagline: "A night to remember forever",
   desc: "The grand finale an evening of elegance, laughter, and celebration as the newlyweds are welcomed into their shared life. Music fills the air, lights shimmer, and the night belongs entirely to love.",
-  date: "April 26, 2026",
+  date: "April 28, 2026",
   time: "7:30 PM onwards",
   pastel: "#1a1035",
   accent: "#c9a96e",
@@ -806,7 +806,7 @@ function PhotoFrame() {
         background: "linear-gradient(160deg, #f5ece0 0%, #e8d4b4 50%, #dfc9a8 100%)",
       }}>
         <img
-          src="/couple.jpeg"
+          src="/our.jpeg"
           alt="Couple"
           style={{
             width: "100%",
