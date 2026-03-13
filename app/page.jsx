@@ -170,7 +170,7 @@ const EVENTS = [
     label: "Haldi",
     hindi: "हल्दी",
     tagline: "Golden beginnings",
-    desc: "Where turmeric meets tradition — a morning of laughter, blessings, and the warm glow of marigolds as family gathers to anoint the couple with love.",
+    desc: "Where turmeric meets tradition a morning of laughter, blessings, and the warm glow of marigolds as family gathers to anoint the couple with love.",
     date: "April 25, 2026",
     time: "11:00 AM onwards",
     dressCode: "Yellow & Marigold tones",
@@ -582,7 +582,7 @@ function EventCard({ ev, index }) {
                 <div>
                   <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: ev.accent, marginBottom: "3px" }}>Dress Code</div>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.95rem", fontWeight: 400, color: "#5a4000", lineHeight: 1.4 }}>
-                    Yellow &amp; Marigold tones — wear the colour of the ceremony!
+                    Yellow &amp; Marigold tones  wear the colour of the ceremony!
                   </div>
                 </div>
               </div>
@@ -657,7 +657,7 @@ function ReceptionVenueSection() {
         <div style={{ position: "absolute", bottom: "-20px", right: "-20px", width: "120px", height: "120px", borderRadius: "50%", border: "1.5px solid rgba(201,169,110,0.18)", pointerEvents: "none" }} />
 
         <div style={{ position: "relative", zIndex: 2 }}>
-          <div style={{ fontSize: "1.8rem", marginBottom: "14px" }}>🥂</div>
+          <div style={{ fontSize: "1.8rem", marginBottom: "14px" }}></div>
           <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.7rem", letterSpacing: "0.28em", color: "#c9a96e", textTransform: "uppercase", marginBottom: "6px" }}>Reception Venue</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.8rem, 5vw, 2.6rem)", fontWeight: 300, color: "#f5e6c8", letterSpacing: "0.04em", lineHeight: 1.15, marginBottom: "8px" }}>
             {/* Replace with actual reception venue name */}
@@ -666,7 +666,7 @@ function ReceptionVenueSection() {
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.72rem", fontWeight: 200, letterSpacing: "0.2em", color: "#c9a96e", textTransform: "uppercase", marginBottom: "20px" }}>An evening to remember</p>
           <div style={{ width: "40px", height: "1px", background: "linear-gradient(to right, #c9a96e, transparent)", marginBottom: "22px" }} />
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.95rem, 2.5vw, 1.05rem)", fontWeight: 300, lineHeight: 1.85, color: "#c8b89a", marginBottom: "30px", maxWidth: "560px" }}>
-            The grand finale unfolds here — a venue dressed in lights and laughter, ready to host the most celebrated night of the season.
+            The grand finale unfolds here  a venue dressed in lights and laughter, ready to host the most celebrated night of the season.
           </p>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontFamily: "'Jost', sans-serif", fontSize: "0.82rem", fontWeight: 300, color: "#a89070", marginBottom: "28px" }}>
             <MapPin size={15} style={{ color: "#c9a96e", marginTop: "2px", flexShrink: 0 }} />
@@ -675,10 +675,10 @@ function ReceptionVenueSection() {
           </div>
 
           {/* Venue image placeholder */}
-          <div style={{
+          {/* <div style={{
             width: "100%", borderRadius: "14px", overflow: "hidden",
             height: "clamp(200px, 35vw, 300px)",
-            backgroundImage: "url('/reception-venue.jpg')", /* Replace with actual image */
+            backgroundImage: "url('/reception-venue.jpg')", 
             backgroundSize: "cover", backgroundPosition: "center",
             display: "flex", alignItems: "center", justifyContent: "center",
             position: "relative",
@@ -691,7 +691,7 @@ function ReceptionVenueSection() {
               </div>
               <div style={{ marginTop: "6px", fontFamily: "'Jost', sans-serif", fontSize: "0.65rem", letterSpacing: "0.15em", color: "#1a0a2e", fontWeight: 400, background: "rgba(245,230,200,0.92)", padding: "4px 10px", borderRadius: "20px", boxShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>Reception Venue</div>
             </div>
-          </div>
+          </div>  */}
 
           <a
             href="https://maps.app.goo.gl/jX5rTvEypm4QMu9UA" /* Replace with actual Google Maps link */
@@ -857,10 +857,10 @@ function Hero() {
       position: "relative", overflow: "hidden", gap: 0,
     }}>
       <div style={{ position: "relative", zIndex: 3, marginBottom: "28px", marginTop: "-60px", animation: "fadeIn 1.6s ease both" }}>
-        <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.58rem", letterSpacing: "0.38em", fontWeight: 400, textTransform: "uppercase", color: "#7f5c1b", opacity: 0.85 }}>
+        <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.68rem", letterSpacing: "0.38em", fontWeight: 900, textTransform: "uppercase", color: "#7f5c1b", opacity: 0.85 }}>
           Together with their families
         </div>
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.85rem,2.2vw,1rem)", fontWeight: 500, fontStyle: "italic", color: "#8a6a40", marginTop: "6px", opacity: 0.9 }}>
+        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(0.85rem,2.2vw,1rem)", fontWeight: 800, fontStyle: "italic", color: "#8a6a40", marginTop: "6px", opacity: 0.9 }}>
           joyfully invite you to the wedding of
         </div>
       </div>
