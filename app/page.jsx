@@ -173,7 +173,7 @@ const EVENTS = [
     desc: "Where turmeric meets tradition a morning of laughter, blessings, and the warm glow of marigolds as family gathers to anoint the couple with love.",
     date: "April 25, 2026",
     time: "11:00 AM onwards",
-    dressCode: "Yellow & Marigold tones",
+    dressCode: "Yellow & Marigold tones.",
     pastel: "#FFF3C4",
     accent: "#D4A017",
     dot: "#e6b800",
@@ -187,6 +187,7 @@ const EVENTS = [
     desc: "Families come alive through song, dance, and stories. The night hums with nostalgia, joy, and performances that will be talked about for years.",
     date: "April 25, 2026",
     time: "7:00 PM onwards",
+    dressCode: "Festive & vibrant — anything that dances.",
     pastel: "#F0E6FF",
     accent: "#8B5CF6",
     dot: "#9b72ef",
@@ -200,6 +201,7 @@ const EVENTS = [
     desc: "The sacred walk around the fire seven vows, seven promises, seven steps that bind two souls across every lifetime that will ever be.",
     date: "April 26, 2026",
     time: "07:00 AM onwards",
+    dressCode: "Traditional & Elegant — traditional attire, heart full of blessings.",
     pastel: "#FFE8E8",
     accent: "#C0394B",
     dot: "#e05060",
@@ -213,6 +215,7 @@ const EVENTS = [
     desc: "As the stars align and the priest recites ancient mantras, two families become one. The most sacred and still moment of the entire celebration.",
     date: "April 26, 2026",
     time: "12:37 PM ",
+    dressCode:"your finest — this is the moment worth dressing for.",
     pastel: "#E8F5E9",
     accent: "#2E7D52",
     dot: "#3d9e6a",
@@ -569,20 +572,42 @@ function EventCard({ ev, index }) {
             ))}
 
             {/* ── Dress code note (Haldi only) ── */}
-            {ev.key === "haldi" && (
+            {(ev.key === "haldi" || ev.key === "sangeet" || ev.key === "saptapadi" || ev.key === "varmala") && (
               <div style={{
                 display: "flex", alignItems: "flex-start", gap: "10px",
                 marginTop: "6px",
                 padding: "10px 14px",
-                background: "rgba(212,160,23,0.12)",
+                background: ev.key === "haldi"
+                  ? "rgba(212,160,23,0.12)"
+                  : ev.key === "sangeet"
+                    ? "rgba(139,92,246,0.10)"
+                    : "rgba(46,125,82,0.10)",
                 borderRadius: "10px",
-                border: "1px solid rgba(212,160,23,0.25)",
+                border: `1px solid ${ev.key === "haldi"
+                    ? "rgba(212,160,23,0.25)"
+                    : ev.key === "sangeet"
+                      ? "rgba(139,92,246,0.25)"
+                      : "rgba(46,125,82,0.25)"
+                  }`,
               }}>
-                <span style={{ fontSize: "0.9rem", flexShrink: 0, marginTop: "1px" }}></span>
+                <span style={{ fontSize: "0.9rem", flexShrink: 0, marginTop: "1px" }}>
+                  {ev.key === "haldi" ? "🌼" : ev.key === "sangeet" ? "✨" : "🌸"}
+                </span>
                 <div>
-                  <div style={{ fontFamily: "'Jost', sans-serif", fontSize: "0.58rem", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: ev.accent, marginBottom: "3px" }}>Dress Code</div>
-                  <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.95rem", fontWeight: 400, color: "#5a4000", lineHeight: 1.4 }}>
-                    Yellow &amp; Marigold tones  wear the colour of the ceremony!
+                  <div style={{
+                    fontFamily: "'Jost', sans-serif", fontSize: "0.58rem", fontWeight: 700,
+                    letterSpacing: "0.28em", textTransform: "uppercase",
+                    color: ev.accent, marginBottom: "3px"
+                  }}>
+                    Dress Code
+                  </div>
+                  <div style={{
+                    fontFamily: "'Cormorant Garamond', serif", fontSize: "0.95rem",
+                    fontWeight: 400,
+                    color: ev.key === "haldi" ? "#5a4000" : ev.key === "sangeet" ? "#3b1f6e" : "#1a3d2b",
+                    lineHeight: 1.4
+                  }}>
+                    {ev.dressCode}
                   </div>
                 </div>
               </div>
